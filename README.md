@@ -48,5 +48,4 @@ These are the formats of the symlinks created:
 <Vendor name>:<Device ID>-<VBIOS version>
 ```
 
-
 If you find a card which does not give you any symlinks at all then please open an issue.
