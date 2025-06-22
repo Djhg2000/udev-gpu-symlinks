@@ -1,0 +1,46 @@
+# Written 2025 by Djhg2000
+
+### How this works #############################################################
+#                                                                              #
+# SUBSYSTEM=="drm"                                                             #
+# Matches devices registered with the "drm" subsystem                          #
+#                                                                              #
+# KERNEL=="card?*"                                                             #
+# Matches devices with a "card" kernel entry and at least 1 character suffix,  #
+# for instance "card0", "card1", "card42", etc.                                #
+#                                                                              #
+# ATTRS{vendor}=="0x1002"                                                      #
+# Matches devices with a specific vendor id, in this example AMD/ATI.          #
+# This works despite the "drm" sybsystem not providing a "vendor" attribute,   #
+# because ATTRS (as opposed to ATTR) allows udev to search upwards in the      #
+# devpath and match the parent device.                                         #
+#                                                                              #
+# ATTRS{vbios_version}=="?*"                                                   #
+# Matches devices with a "vbios_version" attribute and a value which contains  #
+# at least 1 character                                                         #
+#                                                                              #
+# SYMLINK+="dri/AMD:$attr{device}-$attr{vbios_version}"                        #
+# Appends a symlink to the SYMLINK list, the format in this case being         #
+# "vendor:device-vbios_version" where the "vendor" is AMD/ATI                  #
+#                                                                              #
+################################################################################
+
+# Match AMD/ATI cards with a vbios_version attribute
+SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x1002" ATTRS{vbios_version}=="?*" SYMLINK+="dri/AMD:$attr{device}-$attr{vbios_version}"
+# Match AMD/ATI cards with a unique_id attribute
+SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x1002" ATTRS{unique_id}=="?*" SYMLINK+="dri/AMD:$attr{device}-$attr{unique_id}"
+
+# Match NVIDIA cards with a vbios_version attribute
+SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x10de" ATTRS{vbios_version}=="?*" SYMLINK+="dri/NVIDIA:$attr{device}-$attr{vbios_version}"
+# Match NVIDIA cards with a unique_id attribute
+SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x10de" ATTRS{unique_id}=="?*" SYMLINK+="dri/NVIDIA:$attr{device}-$attr{unique_id}"
+
+# Match Intel cards with a vbios_version attribute
+SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x0086" ATTRS{vbios_version}=="?*" SYMLINK+="dri/Intel:$attr{device}-$attr{vbios_version}"
+# Match Intel cards with a unique_id attribute
+SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x0086" ATTRS{unique_id}=="?*" SYMLINK+="dri/Intel:$attr{device}-$attr{unique_id}"
+
+# Match all cards with a vbios_version attribute
+SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vbios_version}=="?*" SYMLINK+="dri/$attr{vendor}:$attr{device}-$attr{vbios_version}"
+# Match all cards with a unique_id attribute
+SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{unique_id}=="?*" SYMLINK+="dri/$attr{vendor}:$attr{device}-$attr{unique_id}"
