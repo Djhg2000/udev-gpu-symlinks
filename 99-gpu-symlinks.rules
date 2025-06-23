@@ -9,6 +9,10 @@
 # Matches devices with a "card" kernel entry and at least 1 character suffix,  #
 # for instance "card0", "card1", "card42", etc.                                #
 #                                                                              #
+# SUBSYSTEMS=="pci"                                                            #
+# Used to force enabling string substitutions from the parent device in the    #
+# symlink name with attr{} when no ATTRS{} have returned a match               #
+#                                                                              #
 # ATTRS{vendor}=="0x1002"                                                      #
 # Matches devices with a specific vendor id, in this example AMD/ATI.          #
 # This works despite the "drm" sybsystem not providing a "vendor" attribute,   #
@@ -42,6 +46,7 @@ SUBSYSTEM=="drm"\
 # a symlink
 SUBSYSTEM=="drm"\
     KERNEL=="card?*"\
+    SUBSYSTEMS=="pci"\
     ATTRS{vendor}=="0x1002"\
     ATTRS{unique_id}!="?*"\
     ATTRS{vbios_version}!="?*"\
@@ -65,6 +70,7 @@ SUBSYSTEM=="drm"\
 # a symlink
 SUBSYSTEM=="drm"\
     KERNEL=="card?*"\
+    SUBSYSTEMS=="pci"\
     ATTRS{vendor}=="0x10de"\
     ATTRS{unique_id}!="?*"\
     ATTRS{vbios_version}!="?*"\
@@ -88,6 +94,7 @@ SUBSYSTEM=="drm"\
 # a symlink
 SUBSYSTEM=="drm"\
     KERNEL=="card?*"\
+    SUBSYSTEMS=="pci"\
     ATTRS{vendor}=="0x8086"\
     ATTRS{unique_id}!="?*"\
     ATTRS{vbios_version}!="?*"\
@@ -109,6 +116,7 @@ SUBSYSTEM=="drm"\
 # a symlink
 SUBSYSTEM=="drm"\
     KERNEL=="card?*"\
+    SUBSYSTEMS=="pci"\
     ATTRS{unique_id}!="?*"\
     ATTRS{vbios_version}!="?*"\
     SYMLINK+="dri/$attr{vendor}:$attr{device}-subsysdev-$attr{subsystem_vendor}:$attr{subsystem_device}"
