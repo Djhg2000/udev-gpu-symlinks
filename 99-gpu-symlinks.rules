@@ -74,13 +74,13 @@ SUBSYSTEM=="drm"\
 # Match Intel cards with a vbios_version attribute
 SUBSYSTEM=="drm"\
     KERNEL=="card?*"\
-    ATTRS{vendor}=="0x0086"\
+    ATTRS{vendor}=="0x8086"\
     ATTRS{vbios_version}=="?*"\
     SYMLINK+="dri/Intel:$attr{device}-$attr{vbios_version}"
 # Match Intel cards with a unique_id attribute
 SUBSYSTEM=="drm"\
     KERNEL=="card?*"\
-    ATTRS{vendor}=="0x0086"\
+    ATTRS{vendor}=="0x8086"\
     ATTRS{unique_id}=="?*"\
     SYMLINK+="dri/Intel:$attr{device}-$attr{unique_id}"
 # Match Intel cards without any identified unique attributes
@@ -88,7 +88,7 @@ SUBSYSTEM=="drm"\
 # a symlink
 SUBSYSTEM=="drm"\
     KERNEL=="card?*"\
-    ATTRS{vendor}=="0x1002"\
+    ATTRS{vendor}=="0x8086"\
     ATTRS{unique_id}!="?*"\
     ATTRS{vbios_version}!="?*"\
     SYMLINK+="dri/Intel:$attr{device}-subsysdev-$attr{subsystem_vendor}:$attr{subsystem_device}"
