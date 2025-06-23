@@ -25,22 +25,90 @@
 #                                                                              #
 ################################################################################
 
-# Match AMD/ATI cards with a vbios_version attribute
-SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x1002" ATTRS{vbios_version}=="?*" SYMLINK+="dri/AMD:$attr{device}-$attr{vbios_version}"
 # Match AMD/ATI cards with a unique_id attribute
-SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x1002" ATTRS{unique_id}=="?*" SYMLINK+="dri/AMD:$attr{device}-$attr{unique_id}"
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vendor}=="0x1002"\
+    ATTRS{unique_id}=="?*"\
+    SYMLINK+="dri/AMD:$attr{device}-$attr{unique_id}"
+# Match AMD/ATI cards with a vbios_version attribute
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vendor}=="0x1002"\
+    ATTRS{vbios_version}=="?*"\
+    SYMLINK+="dri/AMD:$attr{device}-$attr{vbios_version}"
+# Match AMD/ATI cards without any identified unique attributes
+# Warning: when multiple identical cards are installed only one of them will get
+# a symlink
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vendor}=="0x1002"\
+    ATTRS{unique_id}!="?*"\
+    ATTRS{vbios_version}!="?*"\
+    SYMLINK+="dri/AMD:$attr{device}-subsysdev-$attr{subsystem_vendor}:$attr{subsystem_device}"
+
 
 # Match NVIDIA cards with a vbios_version attribute
-SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x10de" ATTRS{vbios_version}=="?*" SYMLINK+="dri/NVIDIA:$attr{device}-$attr{vbios_version}"
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vendor}=="0x10de"\
+    ATTRS{vbios_version}=="?*"\
+    SYMLINK+="dri/NVIDIA:$attr{device}-$attr{vbios_version}"
 # Match NVIDIA cards with a unique_id attribute
-SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x10de" ATTRS{unique_id}=="?*" SYMLINK+="dri/NVIDIA:$attr{device}-$attr{unique_id}"
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vendor}=="0x10de"\
+    ATTRS{unique_id}=="?*"\
+    SYMLINK+="dri/NVIDIA:$attr{device}-$attr{unique_id}"
+# Match NVIDIA cards without any identified unique attributes
+# Warning: when multiple identical cards are installed only one of them will get
+# a symlink
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vendor}=="0x10de"\
+    ATTRS{unique_id}!="?*"\
+    ATTRS{vbios_version}!="?*"\
+    SYMLINK+="dri/NVIDIA:$attr{device}-subsysdev-$attr{subsystem_vendor}:$attr{subsystem_device}"
+
 
 # Match Intel cards with a vbios_version attribute
-SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x0086" ATTRS{vbios_version}=="?*" SYMLINK+="dri/Intel:$attr{device}-$attr{vbios_version}"
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vendor}=="0x0086"\
+    ATTRS{vbios_version}=="?*"\
+    SYMLINK+="dri/Intel:$attr{device}-$attr{vbios_version}"
 # Match Intel cards with a unique_id attribute
-SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vendor}=="0x0086" ATTRS{unique_id}=="?*" SYMLINK+="dri/Intel:$attr{device}-$attr{unique_id}"
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vendor}=="0x0086"\
+    ATTRS{unique_id}=="?*"\
+    SYMLINK+="dri/Intel:$attr{device}-$attr{unique_id}"
+# Match Intel cards without any identified unique attributes
+# Warning: when multiple identical cards are installed only one of them will get
+# a symlink
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vendor}=="0x1002"\
+    ATTRS{unique_id}!="?*"\
+    ATTRS{vbios_version}!="?*"\
+    SYMLINK+="dri/Intel:$attr{device}-subsysdev-$attr{subsystem_vendor}:$attr{subsystem_device}"
+
 
 # Match all cards with a vbios_version attribute
-SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{vbios_version}=="?*" SYMLINK+="dri/$attr{vendor}:$attr{device}-$attr{vbios_version}"
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vbios_version}=="?*"\
+    SYMLINK+="dri/$attr{vendor}:$attr{device}-$attr{vbios_version}"
 # Match all cards with a unique_id attribute
-SUBSYSTEM=="drm" KERNEL=="card?*" ATTRS{unique_id}=="?*" SYMLINK+="dri/$attr{vendor}:$attr{device}-$attr{unique_id}"
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{unique_id}=="?*"\
+    SYMLINK+="dri/$attr{vendor}:$attr{device}-$attr{unique_id}"
+# Match all cards without any identified unique attributes
+# Warning: when multiple identical cards are installed only one of them will get
+# a symlink
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{unique_id}!="?*"\
+    ATTRS{vbios_version}!="?*"\
+    SYMLINK+="dri/$attr{vendor}:$attr{device}-subsysdev-$attr{subsystem_vendor}:$attr{subsystem_device}"
