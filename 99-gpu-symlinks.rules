@@ -97,6 +97,29 @@ SUBSYSTEM=="drm"\
     SYMLINK+="dri/Intel:$attr{device}-subsys-$attr{subsystem_vendor}:$attr{subsystem_device}"
 
 
+# Match Matrox cards with a vbios_version attribute
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vendor}=="0x102b"\
+    ATTRS{vbios_version}=="?*"\
+    SYMLINK+="dri/Matrox:$attr{device}-$attr{vbios_version}"
+# Match Matrox cards with a unique_id attribute
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    ATTRS{vendor}=="0x102b"\
+    ATTRS{unique_id}=="?*"\
+    SYMLINK+="dri/Matrox:$attr{device}-$attr{unique_id}"
+# Match Matrox cards without any identified unique attributes, but add a
+# subsystem suffix (which hopefully makes a unique combination)
+# Warning: when multiple identical cards are installed they are not guaranteed
+# to get unique symlinks
+SUBSYSTEM=="drm"\
+    KERNEL=="card?*"\
+    SUBSYSTEMS=="pci"\
+    ATTRS{vendor}=="0x102b"\
+    SYMLINK+="dri/Matrox:$attr{device}-subsys-$attr{subsystem_vendor}:$attr{subsystem_device}"
+
+
 # Match all cards with a vbios_version attribute
 SUBSYSTEM=="drm"\
     KERNEL=="card?*"\
